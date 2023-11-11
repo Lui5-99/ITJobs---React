@@ -1,0 +1,28 @@
+{
+  "name": "itjobs-server",
+  "version": "1.0.0",
+  "description": "Sitio para crear vacantes de trabajo especializados en IT, de igual manera postular a esas vacantes",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "author": "Lui5 99",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "connect-multiparty": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.5.3",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.7",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

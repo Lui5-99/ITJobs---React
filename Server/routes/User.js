@@ -4,13 +4,16 @@ import {
   getUserById,
   getUsers,
   login,
+  profile,
 } from "../controllers/User.js";
+import checkAuth from "../middleware/checkAuth.js";
 
 const router = express.Router();
 
 // GET
 router.get("/", getUsers);
 //router.get("/:id", getUserById);
+router.get("/profile", checkAuth, profile);
 
 // POST
 router.post("/", createUser);

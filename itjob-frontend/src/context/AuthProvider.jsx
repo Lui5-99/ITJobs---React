@@ -28,7 +28,7 @@ const AuthProvider = ({ children }) => {
         const { data } = await clientAxios.get("/users/profile", config);
         setAuth(data.data);
         if (location.pathname === "/") {
-          navigate("/projects");
+          navigate("/admin");
         }
       } catch (error) {
         setAuth({});

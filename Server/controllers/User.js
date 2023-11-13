@@ -41,6 +41,13 @@ const getUserById = async (req, res) => {
   }
 };
 
+const profile = async (req, res) => {
+  const { user } = req;
+  return res
+    .status(200)
+    .json({ status: 200, message: "Perfil autentificado", data: user });
+};
+
 // POST
 const createUser = async (req, res) => {
   try {
@@ -69,7 +76,6 @@ const createUser = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  console.log(req.body);
   try {
     const { email, password } = req.body;
     const userFound = await User.findOne({ email }).select("+password");
@@ -104,10 +110,8 @@ const login = async (req, res) => {
       return res.status(401).json({ status: 401, message: error.message });
     }
   } catch (error) {
-    return res
-      .status(400)
-      .json({ message: `createUser, Error: ${error.message}` });
+    return res.status(400).json({ message: `login, Error: ${error.message}` });
   }
 };
 
-export { getUsers, getUserById, createUser, login };
+export { getUsers, getUserById, createUser, login, profile };

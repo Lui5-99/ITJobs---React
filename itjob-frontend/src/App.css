@@ -52,11 +52,207 @@ h3 {
   display: block;
   border: none;
 }
+.btn-green {
+  background-color: #00c897;
+}
+.btn-green:hover {
+  background-color: rgb(10, 155, 119);
+}
 .btn-blue {
   background-color: #00a4b6;
 }
 .btn-blue:hover {
   background-color: rgb(3, 133, 148);
+}
+.btn-yellow {
+  background-color: #f6b15f;
+}
+.btn-red {
+  background-color: #c80045;
+}
+
+.edit-btn {
+  margin-top: 4rem;
+}
+.edit-btn {
+  flex: 0 0 auto;
+  text-align: center;
+}
+/* Header */
+.tagline {
+  font-size: 2.2rem;
+  color: #fff;
+  margin: 2rem 0 3rem 0;
+}
+.site-header {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 5rem;
+}
+.name-site {
+  display: flex;
+  justify-content: space-between;
+}
+@media (max-width: 440px) {
+  .name-site {
+    flex-direction: column;
+  }
+}
+.name-site a {
+  color: #fff;
+  text-decoration: none;
+}
+.searcher {
+  padding-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+}
+.searcher form {
+  flex: 1;
+  position: relative;
+}
+@media (min-width: 768px) {
+  .searcher form {
+    flex: 0 0 40%;
+  }
+}
+.searcher input[type="text"] {
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 100%;
+  border: none;
+  padding: 0.5rem 4rem 0.5rem 2rem;
+  height: 5rem;
+  border-radius: 1rem;
+  color: white;
+  font-size: 1.2rem;
+}
+.searcher input[type="submit"] {
+  display: block;
+  text-indent: -9999px;
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background-image: url(./assets/lupa.png);
+  background-color: transparent;
+  border: none;
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.searcher input[type="submit"]:hover {
+  cursor: pointer;
+}
+
+/* General */
+@media (min-width: 768px) {
+  .candidate,
+  .vacancy {
+    display: flex;
+  }
+  .box {
+    flex: 1;
+  }
+  .box:first-of-type {
+    flex: 2;
+  }
+}
+.candidate,
+.vacancy {
+  padding: 3rem 0;
+  border-bottom: 1px solid #272727;
+}
+.candidate,
+.vacancy:last-of-type {
+  border: none;
+}
+.box {
+  padding: 0.5rem 0;
+}
+.box p {
+  color: #fff;
+}
+.work {
+  text-transform: capitalize;
+}
+.box .work,
+.box .tag {
+  font-weight: 700;
+  color: #616065;
+  font-size: 2.6rem;
+  margin: 0;
+  text-align: left;
+}
+.box .tag {
+  margin: 1rem 0 0 0;
+}
+.box .name {
+  font: 2.4rem;
+  margin: 0.5rem 0;
+  text-align: left;
+}
+.box .btn {
+  text-align: center;
+}
+.center-vertical {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.center-horizontal {
+  display: flex;
+  justify-content: center;
+}
+.vacancy-container h2 {
+  color: #616065;
+  font-size: 2.4rem;
+}
+.content-up {
+  margin-bottom: 6rem;
+}
+@media (min-width: 768px) {
+  .vacancy-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .vacancy-container main {
+    flex: 0 0 60%;
+  }
+  .vacancy-container aside {
+    flex: 0 0 calc(40% - 2rem);
+  }
+  .vacancy-container a {
+    margin-bottom: 10rem;
+  }
+}
+.vacancy-container h1 {
+  line-height: 1.4;
+}
+.vacancy-container * {
+  color: white !important;
+  line-height: 2.2;
+}
+.skills {
+  color: white;
+}
+.skills li,
+.vacancy-container div {
+  font-size: 1.8rem;
+  line-height: 2.4;
+}
+.send-data h2 {
+  font-size: 4rem;
+  color: white;
+}
+.send-data p {
+  color: white;
+  font-size: 1.8rem;
 }
 
 /* login */
@@ -114,6 +310,96 @@ h3 {
   color: white;
 }
 
+.default-form input[type="file"] {
+  color: white;
+}
+trix-toolbar,
+trix-editor {
+  background-color: white !important;
+}
+trix-toolbar {
+  padding: 1rem;
+}
+trix-editor {
+  font-size: 1.8rem;
+  min-height: 30rem !important;
+  padding: 2rem;
+}
+trix-editor h1,
+trix-editor blockquote {
+  color: black;
+}
+trix-toolbar .trix-button-group {
+  margin-bottom: 0;
+}
+trix-toolbar .trix-button--icon-strike {
+  display: none;
+}
+.field.description {
+  display: block;
+}
+.field.description label {
+  display: block;
+  margin-bottom: 2rem;
+}
+.default-form input[type="submit"] {
+  margin-top: 2rem;
+}
+.default-form input[type="submit"]:hover {
+  cursor: pointer;
+}
+.default-form .actions {
+  display: flex;
+  justify-content: space-between;
+}
+.default-form a {
+  color: #616065;
+  text-decoration: none;
+}
+.list-skills {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.list-skills li {
+  border: 2px solid #00c897;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: white;
+  flex: 0 0 calc(50% - 1rem);
+  text-align: center;
+  border-radius: 1rem;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.list-skills li.active {
+  background-color: #00c897;
+}
+.list-skills li:hover {
+  cursor: pointer;
+}
+@media (min-width: 480px) {
+  .list-skills li {
+    flex: 0 0 calc(33% - 1rem);
+  }
+}
+@media (min-width: 768px) {
+  .list-skills li {
+    flex: 0 0 calc(25% - 1rem);
+  }
+}
+@media (min-width: 992px) {
+  .list-skills li {
+    flex: 0 0 calc(20% - 1rem);
+  }
+}
+
+/* Alerts */
 .alert {
   text-align: center;
   padding: 2rem;

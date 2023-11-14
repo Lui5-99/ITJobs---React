@@ -1,11 +1,11 @@
 import React from "react";
 
 const Vacancy = ({ vacancy }) => {
-  const { title, location, contract, url } = vacancy;
+  const { title, location, contract, url, enterprise } = vacancy;
   return (
     <div className="vacancy">
       <div className="box">
-        <h3>Facebook</h3>
+        <h3>{enterprise}</h3>
         <p className="work">{title}</p>
       </div>
       <div className="box">

@@ -6,14 +6,16 @@ import { ListSkills } from "../helpers/skills.js";
 import Editor from "./Editor.jsx";
 
 const Form = () => {
-  const [id, setId] = useState("0");
+  const [id, setId] = useState(null);
   const [title, setTitle] = useState("");
   const [enterprise, setEnterprise] = useState("");
   const [location, setLocation] = useState("");
   const [salary, setSalary] = useState("");
   const [contract, setContract] = useState("");
   const [description, setDescription] = useState("");
-  const [skills, setSkills] = useState("");
+  const [skills, setSkills] = useState([]);
+  const [autor, setAutor] = useState("");
+  const [url, setUrl] = useState(null);
 
   const params = useParams();
   const { showAlert, alert, submitVacancy, vacancy, load } = useVacancy();
@@ -21,36 +23,64 @@ const Form = () => {
   useEffect(() => {
     // Revisar si la url trae algun id, si es asi llenar los campos
     if (params.url) {
-      setId(vacancy._id);
-      setTitle(vacancy.title);
-      setEnterprise(vacancy.enterprise);
-      setLocation(vacancy.location);
-      setSalary(vacancy.salary);
-      setContract(vacancy.contract);
-      setDescription(vacancy.description);
+      setId(vacancy?._id);
+      setTitle(vacancy?.title);
+      setEnterprise(vacancy?.enterprise);
+      setLocation(vacancy?.location);
+      setSalary(vacancy?.salary);
+      setContract(vacancy?.contract);
+      setDescription(vacancy?.description);
+      setSkills(vacancy?.skills);
+      setAutor(vacancy?.autor?._id.toString());
+      setUrl(vacancy?.url);
     }
   }, [params, vacancy]);
 
   useEffect(() => {
-    const skillsSet = new Set();
-    const addSkills = (e) => {
-      if (e.target.tagName === "LI") {
-        if (e.target.classList.contains("active")) {
-          skillsSet.delete(e.target.textContent);
-          e.target.classList.remove("active");
-        } else {
-          skillsSet.add(e.target.textContent);
-          e.target.classList.add("active");
+    if (!vacancy._id) {
+      const skillsSet = new Set();
+      const addSkills = (e) => {
+        if (e.target.tagName === "LI") {
+          if (e.target.classList.contains("active")) {
+            skillsSet.delete(e.target.textContent);
+            e.target.classList.remove("active");
+          } else {
+            skillsSet.add(e.target.textContent);
+            e.target.classList.add("active");
+          }
         }
+        let skillsArray = [...skillsSet];
+        setSkills(skillsArray);
+      };
+      const skillsDom = document.querySelector(".list-skills");
+      if (skillsDom) {
+        skillsDom.addEventListener("click", addSkills);
       }
-      let skillsArray = [...skillsSet];
-      setSkills(skillsArray);
-    };
-    const skillsDom = document.querySelector(".list-skills");
-    if (skillsDom) {
-      skillsDom.addEventListener("click", addSkills);
     }
   }, []);
+
+  useEffect(() => {
+    if (params.url) {
+      let skillsSet = new Set(vacancy.skills);
+      const addSkills = (e) => {
+        if (e.target.tagName === "LI") {
+          if (e.target.classList.contains("active")) {
+            skillsSet.delete(e.target.textContent);
+            e.target.classList.remove("active");
+          } else {
+            skillsSet.add(e.target.textContent);
+            e.target.classList.add("active");
+          }
+        }
+        let skillsArray = [...skillsSet];
+        setSkills(skillsArray);
+      };
+      const skillsDom = document.querySelector(".list-skills");
+      if (skillsDom) {
+        skillsDom.addEventListener("click", addSkills);
+      }
+    }
+  }, [params, vacancy]);
 
   useEffect(() => {
     const skillsSet = new Set();
@@ -62,19 +92,20 @@ const Form = () => {
         selects.forEach((sel) => {
           skillsSet.add(sel.textContent);
         });
-        const skillsArray = [...skillsSet];
-        setSkills(skillsArray);
+        // const skillsArray = [...skillsSet];
+        // console.log(skillsArray);
+        // setSkills(skillsArray);
       };
       const skillsDom = document.querySelector(".list-skills");
       if (skillsDom) {
         selectSkills();
       }
     }
-  }, [params]);
+  }, [params, vacancy]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if ([title, location, salary, contract, desc, skills].includes("")) {
+    if ([title, location, salary, contract, description, skills].includes("")) {
       showAlert({
         msg: "Todos los campos son requeridos",
         error: true,
@@ -88,11 +119,13 @@ const Form = () => {
       location,
       salary,
       contract,
-      description: desc,
-      skills: skills.split(","),
+      description,
+      skills,
+      autor,
+      url,
     };
     await submitVacancy(newVacancy);
-    setId("0");
+    setId(null);
     setTitle("");
     setEnterprise("");
     setLocation("");

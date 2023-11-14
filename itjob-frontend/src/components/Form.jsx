@@ -3,9 +3,10 @@ import { useParams } from "react-router-dom";
 import useVacancy from "../hooks/useVacancy";
 import Alert from "../components/Alert";
 import { ListSkills } from "../helpers/skills.js";
+import Editor from "./Editor.jsx";
 
 const Form = () => {
-  const [id, setId] = useState(null);
+  const [id, setId] = useState("0");
   const [title, setTitle] = useState("");
   const [enterprise, setEnterprise] = useState("");
   const [location, setLocation] = useState("");
@@ -14,23 +15,21 @@ const Form = () => {
   const [description, setDescription] = useState("");
   const [skills, setSkills] = useState("");
 
-  const { url } = useParams();
+  const params = useParams();
+  const { showAlert, alert, submitVacancy, vacancy, load } = useVacancy();
 
   useEffect(() => {
     // Revisar si la url trae algun id, si es asi llenar los campos
-    if (url) {
-      getVacancyById(url);
-      if (vacancy) {
-        setId(vacancy._id);
-        setTitle(vacancy.title);
-        setEnterprise(vacancy.enterprise);
-        setLocation(vacancy.location);
-        setSalary(vacancy.salary);
-        setContract(vacancy.contract);
-        setDescription(vacancy.description);
-      }
+    if (params.url) {
+      setId(vacancy._id);
+      setTitle(vacancy.title);
+      setEnterprise(vacancy.enterprise);
+      setLocation(vacancy.location);
+      setSalary(vacancy.salary);
+      setContract(vacancy.contract);
+      setDescription(vacancy.description);
     }
-  }, [url]);
+  }, [params, vacancy]);
 
   useEffect(() => {
     const skillsSet = new Set();
@@ -44,9 +43,8 @@ const Form = () => {
           e.target.classList.add("active");
         }
       }
-      const skillsArray = [...skillsSet];
-      document.querySelector("#skills").value = skillsArray;
-      setSkills(document.querySelector("#skills").value);
+      let skillsArray = [...skillsSet];
+      setSkills(skillsArray);
     };
     const skillsDom = document.querySelector(".list-skills");
     if (skillsDom) {
@@ -54,12 +52,28 @@ const Form = () => {
     }
   }, []);
 
-  const { showAlert, alert, submitVacancy, vacancy, getVacancyById } =
-    useVacancy();
+  useEffect(() => {
+    const skillsSet = new Set();
+    if (params.url) {
+      const selectSkills = () => {
+        const selects = Array.from(
+          document.querySelectorAll(".list-skills .active")
+        );
+        selects.forEach((sel) => {
+          skillsSet.add(sel.textContent);
+        });
+        const skillsArray = [...skillsSet];
+        setSkills(skillsArray);
+      };
+      const skillsDom = document.querySelector(".list-skills");
+      if (skillsDom) {
+        selectSkills();
+      }
+    }
+  }, [params]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const desc = document.querySelector("input[name='description']").value;
     if ([title, location, salary, contract, desc, skills].includes("")) {
       showAlert({
         msg: "Todos los campos son requeridos",
@@ -77,9 +91,8 @@ const Form = () => {
       description: desc,
       skills: skills.split(","),
     };
-    console.log(newVacancy);
     await submitVacancy(newVacancy);
-    setId(null);
+    setId("0");
     setTitle("");
     setEnterprise("");
     setLocation("");
@@ -90,7 +103,9 @@ const Form = () => {
 
   const { msg } = alert;
 
-  return (
+  return load ? (
+    <p style={{ color: "#fff" }}>Cargando ...</p>
+  ) : (
     <form onSubmit={handleSubmit} className="default-form">
       <h3>Información general</h3>
       <div className="field">
@@ -158,26 +173,22 @@ const Form = () => {
       <h3>Descripción del puesto</h3>
       <div className="field description">
         <h3>Descripcion</h3>
-        <input type="hidden" id="x" name="description" />
-        <trix-editor input="x"></trix-editor>
+        <Editor setDescription={setDescription} description={description} />
       </div>
       <h3>Conocimientos</h3>
       <ul className="list-skills">
         {ListSkills.map((e, index) => (
-          <li key={index}>{e}</li>
+          <li
+            key={index}
+            className={vacancy?.skills?.includes(e) ? "active" : ""}
+          >
+            {e}
+          </li>
         ))}
       </ul>
       {msg && <Alert alert={alert} />}
       <div className="field center-horizontal">
-        <input
-          type="hidden"
-          name="skills"
-          id="skills"
-          value={skills}
-          onChange={(e) => {
-            setSkills(e.target.value);
-          }}
-        />
+        <input type="hidden" name="skills" id="skills" />
         <input type="submit" value="Publicar" className="btn btn-blue" />
       </div>
     </form>

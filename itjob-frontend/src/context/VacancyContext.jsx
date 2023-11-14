@@ -49,7 +49,7 @@ const VacancyProvider = ({ children }) => {
   };
 
   const submitVacancy = async (vacancy) => {
-    if (vacancy.id) {
+    if (vacancy.id !== 0) {
     } else {
       await newVacancy(vacancy);
     }
@@ -84,6 +84,7 @@ const VacancyProvider = ({ children }) => {
         vacancies,
         getVacancyById,
         load,
+        setLoad,
       }}
     >
       {children}
